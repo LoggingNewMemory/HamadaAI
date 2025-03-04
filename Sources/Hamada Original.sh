@@ -60,3 +60,5 @@ while true; do
     
     sleep 2
 done
+
+# Convert to ARM64 Android Assembly, The assembly code must be work as same as the original .sh script

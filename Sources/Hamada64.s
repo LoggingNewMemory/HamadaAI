@@ -1,346 +1,447 @@
-    .section .data
-GAME_LIST:
-    .asciz "/storage/emulated/0/HAMADA/game.txt"
-GAME_SCRIPT:
-    .asciz "/data/adb/modules/HamadaAI/Scripts/game.sh"
-NORMAL_SCRIPT:
-    .asciz "/data/adb/modules/HamadaAI/Scripts/normal.sh"
-ERR_MSG:
-    .asciz "Error: /storage/emulated/0/HAMADA/game.txt not found\n"
-MODE_R:
-    .asciz "r"
-GREP_O:
-    .asciz "grep -o"
-SPACE_E:
-    .asciz " -e "
-SCREEN_CMD:
-    .asciz "dumpsys window | grep mScreenOn | grep false"
-    // PKG_CMD_PREFIX updated: Added a pipe after "grep package" so the filter expression is applied correctly.
-PKG_CMD_PREFIX:
-    .asciz "dumpsys window | grep package | "
-PKG_CMD_SUFFIX:
-    .asciz " | tail -1"
-SCREEN_CHANGED_MSG:
-    .asciz "Screen status changed\n"
-GAME_DETECTED_MSG:
-    .asciz "Game package detected: "
-NON_GAME_MSG:
-    .asciz "Non-game package detected\n"
-SH_CMD_PREFIX:
-    .asciz "sh "
-game_str:
-    .asciz "game"
-normal_str:
-    .asciz "normal"
+	.text
+	.file	"Hamada64.c"
+	.globl	main                            // -- Begin function main
+	.p2align	2
+	.type	main,@function
+main:                                   // @main
+	.cfi_startproc
+// %bb.0:
+	stp	x29, x30, [sp, #-32]!           // 16-byte Folded Spill
+	.cfi_def_cfa_offset 32
+	str	x28, [sp, #16]                  // 8-byte Folded Spill
+	mov	x29, sp
+	.cfi_def_cfa w29, 32
+	.cfi_offset w28, -16
+	.cfi_offset w30, -24
+	.cfi_offset w29, -32
+	.cfi_remember_state
+	sub	sp, sp, #17, lsl #12            // =69632
+	sub	sp, sp, #2160
+	sub	x8, x29, #24
+	str	x8, [sp, #56]                   // 8-byte Folded Spill
+	add	x9, sp, #3144
+	str	x9, [sp, #48]                   // 8-byte Folded Spill
+	str	wzr, [x8, #20]
+	adrp	x0, .L.str
+	add	x0, x0, :lo12:.L.str
+	adrp	x1, .L.str.1
+	add	x1, x1, :lo12:.L.str.1
+	bl	fopen
+	ldr	x8, [sp, #56]                   // 8-byte Folded Reload
+	str	x0, [x8, #8]
+	ldr	x8, [x8, #8]
+	cbnz	x8, .LBB0_2
+	b	.LBB0_1
+.LBB0_1:
+	adrp	x8, :got:stderr
+	ldr	x8, [x8, :got_lo12:stderr]
+	ldr	x0, [x8]
+	adrp	x1, .L.str.2
+	add	x1, x1, :lo12:.L.str.2
+	adrp	x2, .L.str
+	add	x2, x2, :lo12:.L.str
+	bl	fprintf
+	mov	w0, #1                          // =0x1
+	add	sp, sp, #17, lsl #12            // =69632
+	add	sp, sp, #2160
+	.cfi_def_cfa wsp, 32
+	ldr	x28, [sp, #16]                  // 8-byte Folded Reload
+	ldp	x29, x30, [sp], #32             // 16-byte Folded Reload
+	.cfi_def_cfa_offset 0
+	.cfi_restore w28
+	.cfi_restore w30
+	.cfi_restore w29
+	ret
+.LBB0_2:
+	.cfi_restore_state
+	ldr	x8, [sp, #56]                   // 8-byte Folded Reload
+	ldr	x0, [x8, #8]
+	bl	fclose
+	ldr	x8, [sp, #56]                   // 8-byte Folded Reload
+	mov	w9, #1                          // =0x1
+	strb	w9, [x8, #7]
+	str	wzr, [x8]
+	b	.LBB0_3
+.LBB0_3:                                // =>This Loop Header: Depth=1
+                                        //     Child Loop BB0_5 Depth 2
+                                        //     Child Loop BB0_16 Depth 2
+                                        //     Child Loop BB0_28 Depth 2
+                                        //       Child Loop BB0_30 Depth 3
+	str	wzr, [sp, #6228]
+	adrp	x0, .L.str
+	add	x0, x0, :lo12:.L.str
+	adrp	x1, .L.str.1
+	add	x1, x1, :lo12:.L.str.1
+	bl	fopen
+	ldr	x8, [sp, #56]                   // 8-byte Folded Reload
+	str	x0, [x8, #8]
+	ldr	x8, [x8, #8]
+	cbz	x8, .LBB0_14
+	b	.LBB0_4
+.LBB0_4:                                //   in Loop: Header=BB0_3 Depth=1
+	b	.LBB0_5
+.LBB0_5:                                //   Parent Loop BB0_3 Depth=1
+                                        // =>  This Inner Loop Header: Depth=2
+	ldr	x8, [sp, #56]                   // 8-byte Folded Reload
+	ldr	x2, [x8, #8]
+	add	x0, sp, #1, lsl #12             // =4096
+	add	x0, x0, #1108
+	mov	w1, #1024                       // =0x400
+	bl	fgets
+	mov	w8, #0                          // =0x0
+	str	w8, [sp, #44]                   // 4-byte Folded Spill
+	cbz	x0, .LBB0_7
+	b	.LBB0_6
+.LBB0_6:                                //   in Loop: Header=BB0_5 Depth=2
+	ldr	w8, [sp, #6228]
+	subs	w8, w8, #256
+	cset	w8, lt
+	str	w8, [sp, #44]                   // 4-byte Folded Spill
+	b	.LBB0_7
+.LBB0_7:                                //   in Loop: Header=BB0_5 Depth=2
+	ldr	w8, [sp, #44]                   // 4-byte Folded Reload
+	tbz	w8, #0, .LBB0_13
+	b	.LBB0_8
+.LBB0_8:                                //   in Loop: Header=BB0_5 Depth=2
+	add	x0, sp, #1, lsl #12             // =4096
+	add	x0, x0, #1108
+	str	x0, [sp, #32]                   // 8-byte Folded Spill
+	adrp	x1, .L.str.3
+	add	x1, x1, :lo12:.L.str.3
+	bl	strcspn
+	ldr	x9, [sp, #32]                   // 8-byte Folded Reload
+	ldr	x8, [sp, #48]                   // 8-byte Folded Reload
+	add	x9, x9, x0
+	strb	wzr, [x9]
+	ldrb	w8, [x8, #2060]
+	cbnz	w8, .LBB0_10
+	b	.LBB0_9
+.LBB0_9:                                //   in Loop: Header=BB0_5 Depth=2
+	b	.LBB0_5
+.LBB0_10:                               //   in Loop: Header=BB0_5 Depth=2
+	add	x0, sp, #1, lsl #12             // =4096
+	add	x0, x0, #1108
+	mov	w1, #32                         // =0x20
+	bl	strchr
+	cbz	x0, .LBB0_12
+	b	.LBB0_11
+.LBB0_11:                               //   in Loop: Header=BB0_5 Depth=2
+	b	.LBB0_5
+.LBB0_12:                               //   in Loop: Header=BB0_5 Depth=2
+	ldrsw	x9, [sp, #6228]
+	add	x8, sp, #1, lsl #12             // =4096
+	add	x8, x8, #2136
+	str	x8, [sp, #24]                   // 8-byte Folded Spill
+	add	x0, x8, x9, lsl #8
+	add	x1, sp, #1, lsl #12             // =4096
+	add	x1, x1, #1108
+	mov	x2, #255                        // =0xff
+	bl	strncpy
+	ldr	x8, [sp, #24]                   // 8-byte Folded Reload
+	ldrsw	x9, [sp, #6228]
+	add	x8, x8, x9, lsl #8
+	strb	wzr, [x8, #255]
+	ldr	w8, [sp, #6228]
+	add	w8, w8, #1
+	str	w8, [sp, #6228]
+	b	.LBB0_5
+.LBB0_13:                               //   in Loop: Header=BB0_3 Depth=1
+	ldr	x8, [sp, #56]                   // 8-byte Folded Reload
+	ldr	x0, [x8, #8]
+	bl	fclose
+	b	.LBB0_14
+.LBB0_14:                               //   in Loop: Header=BB0_3 Depth=1
+	ldr	x9, [sp, #48]                   // 8-byte Folded Reload
+	mov	w8, #1                          // =0x1
+	strb	w8, [x9, #2059]
+	adrp	x0, .L.str.4
+	add	x0, x0, :lo12:.L.str.4
+	adrp	x1, .L.str.1
+	add	x1, x1, :lo12:.L.str.1
+	bl	popen
+	ldr	x8, [sp, #48]                   // 8-byte Folded Reload
+	str	x0, [x8, #2048]
+	ldr	x8, [x8, #2048]
+	cbz	x8, .LBB0_23
+	b	.LBB0_15
+.LBB0_15:                               //   in Loop: Header=BB0_3 Depth=1
+	b	.LBB0_16
+.LBB0_16:                               //   Parent Loop BB0_3 Depth=1
+                                        // =>  This Inner Loop Header: Depth=2
+	ldr	x8, [sp, #48]                   // 8-byte Folded Reload
+	ldr	x2, [x8, #2048]
+	add	x0, sp, #1, lsl #12             // =4096
+	add	x0, x0, #72
+	mov	w1, #1024                       // =0x400
+	bl	fgets
+	cbz	x0, .LBB0_22
+	b	.LBB0_17
+.LBB0_17:                               //   in Loop: Header=BB0_16 Depth=2
+	add	x0, sp, #1, lsl #12             // =4096
+	add	x0, x0, #72
+	adrp	x1, .L.str.5
+	add	x1, x1, :lo12:.L.str.5
+	bl	strstr
+	cbz	x0, .LBB0_21
+	b	.LBB0_18
+.LBB0_18:                               //   in Loop: Header=BB0_16 Depth=2
+	add	x0, sp, #1, lsl #12             // =4096
+	add	x0, x0, #72
+	adrp	x1, .L.str.6
+	add	x1, x1, :lo12:.L.str.6
+	bl	strstr
+	cbz	x0, .LBB0_20
+	b	.LBB0_19
+.LBB0_19:                               //   in Loop: Header=BB0_3 Depth=1
+	ldr	x8, [sp, #48]                   // 8-byte Folded Reload
+	strb	wzr, [x8, #2059]
+	b	.LBB0_22
+.LBB0_20:                               //   in Loop: Header=BB0_16 Depth=2
+	b	.LBB0_21
+.LBB0_21:                               //   in Loop: Header=BB0_16 Depth=2
+	b	.LBB0_16
+.LBB0_22:                               //   in Loop: Header=BB0_3 Depth=1
+	ldr	x8, [sp, #48]                   // 8-byte Folded Reload
+	ldr	x0, [x8, #2048]
+	bl	pclose
+	b	.LBB0_23
+.LBB0_23:                               //   in Loop: Header=BB0_3 Depth=1
+	ldr	x9, [sp, #56]                   // 8-byte Folded Reload
+	ldr	x8, [sp, #48]                   // 8-byte Folded Reload
+	ldrb	w8, [x8, #2059]
+	and	w8, w8, #0x1
+	ldrb	w9, [x9, #7]
+	and	w9, w9, #0x1
+	subs	w8, w8, w9
+	b.eq	.LBB0_25
+	b	.LBB0_24
+.LBB0_24:                               //   in Loop: Header=BB0_3 Depth=1
+	adrp	x0, .L.str.7
+	add	x0, x0, :lo12:.L.str.7
+	bl	printf
+	ldr	x8, [sp, #48]                   // 8-byte Folded Reload
+	ldr	x9, [sp, #56]                   // 8-byte Folded Reload
+	ldrb	w8, [x8, #2059]
+	and	w8, w8, #0x1
+	strb	w8, [x9, #7]
+	b	.LBB0_25
+.LBB0_25:                               //   in Loop: Header=BB0_3 Depth=1
+	ldr	x8, [sp, #48]                   // 8-byte Folded Reload
+	ldrb	w8, [x8, #2059]
+	tbz	w8, #0, .LBB0_45
+	b	.LBB0_26
+.LBB0_26:                               //   in Loop: Header=BB0_3 Depth=1
+	adrp	x0, .L.str.8
+	add	x0, x0, :lo12:.L.str.8
+	adrp	x1, .L.str.1
+	add	x1, x1, :lo12:.L.str.1
+	bl	popen
+	ldr	x8, [sp, #48]                   // 8-byte Folded Reload
+	str	x0, [x8, #2048]
+	add	x0, sp, #3144
+	mov	x2, #1024                       // =0x400
+	mov	w1, wzr
+	bl	memset
+	ldr	x8, [sp, #48]                   // 8-byte Folded Reload
+	ldr	x8, [x8, #2048]
+	cbz	x8, .LBB0_37
+	b	.LBB0_27
+.LBB0_27:                               //   in Loop: Header=BB0_3 Depth=1
+	b	.LBB0_28
+.LBB0_28:                               //   Parent Loop BB0_3 Depth=1
+                                        // =>  This Loop Header: Depth=2
+                                        //       Child Loop BB0_30 Depth 3
+	ldr	x8, [sp, #48]                   // 8-byte Folded Reload
+	ldr	x2, [x8, #2048]
+	add	x0, sp, #2120
+	mov	w1, #1024                       // =0x400
+	bl	fgets
+	cbz	x0, .LBB0_36
+	b	.LBB0_29
+.LBB0_29:                               //   in Loop: Header=BB0_28 Depth=2
+	str	wzr, [sp, #2116]
+	b	.LBB0_30
+.LBB0_30:                               //   Parent Loop BB0_3 Depth=1
+                                        //     Parent Loop BB0_28 Depth=2
+                                        // =>    This Inner Loop Header: Depth=3
+	ldr	w8, [sp, #2116]
+	ldr	w9, [sp, #6228]
+	subs	w8, w8, w9
+	b.ge	.LBB0_35
+	b	.LBB0_31
+.LBB0_31:                               //   in Loop: Header=BB0_30 Depth=3
+	ldrsw	x9, [sp, #2116]
+	add	x8, sp, #1, lsl #12             // =4096
+	add	x8, x8, #2136
+	add	x1, x8, x9, lsl #8
+	add	x0, sp, #2120
+	bl	strstr
+	cbz	x0, .LBB0_33
+	b	.LBB0_32
+.LBB0_32:                               //   in Loop: Header=BB0_30 Depth=3
+	ldrsw	x9, [sp, #2116]
+	add	x8, sp, #1, lsl #12             // =4096
+	add	x8, x8, #2136
+	add	x1, x8, x9, lsl #8
+	add	x0, sp, #3144
+	mov	x2, #1023                       // =0x3ff
+	bl	strncpy
+	ldr	x8, [sp, #48]                   // 8-byte Folded Reload
+	strb	wzr, [x8, #1023]
+	b	.LBB0_33
+.LBB0_33:                               //   in Loop: Header=BB0_30 Depth=3
+	b	.LBB0_34
+.LBB0_34:                               //   in Loop: Header=BB0_30 Depth=3
+	ldr	w8, [sp, #2116]
+	add	w8, w8, #1
+	str	w8, [sp, #2116]
+	b	.LBB0_30
+.LBB0_35:                               //   in Loop: Header=BB0_28 Depth=2
+	b	.LBB0_28
+.LBB0_36:                               //   in Loop: Header=BB0_3 Depth=1
+	ldr	x8, [sp, #48]                   // 8-byte Folded Reload
+	ldr	x0, [x8, #2048]
+	bl	pclose
+	b	.LBB0_37
+.LBB0_37:                               //   in Loop: Header=BB0_3 Depth=1
+	add	x0, sp, #3144
+	bl	strlen
+	subs	x8, x0, #0
+	b.ls	.LBB0_41
+	b	.LBB0_38
+.LBB0_38:                               //   in Loop: Header=BB0_3 Depth=1
+	ldr	x8, [sp, #56]                   // 8-byte Folded Reload
+	ldr	w8, [x8]
+	subs	w8, w8, #1
+	b.eq	.LBB0_40
+	b	.LBB0_39
+.LBB0_39:                               //   in Loop: Header=BB0_3 Depth=1
+	adrp	x0, .L.str.9
+	add	x0, x0, :lo12:.L.str.9
+	add	x1, sp, #3144
+	bl	printf
+	add	x0, sp, #1092
+	str	x0, [sp, #16]                   // 8-byte Folded Spill
+	mov	x1, #1024                       // =0x400
+	adrp	x2, .L.str.10
+	add	x2, x2, :lo12:.L.str.10
+	adrp	x3, .L.str.11
+	add	x3, x3, :lo12:.L.str.11
+	bl	snprintf
+	ldr	x0, [sp, #16]                   // 8-byte Folded Reload
+	bl	system
+	ldr	x9, [sp, #56]                   // 8-byte Folded Reload
+	mov	w8, #1                          // =0x1
+	str	w8, [x9]
+	b	.LBB0_40
+.LBB0_40:                               //   in Loop: Header=BB0_3 Depth=1
+	b	.LBB0_44
+.LBB0_41:                               //   in Loop: Header=BB0_3 Depth=1
+	ldr	x8, [sp, #56]                   // 8-byte Folded Reload
+	ldr	w8, [x8]
+	subs	w8, w8, #2
+	b.eq	.LBB0_43
+	b	.LBB0_42
+.LBB0_42:                               //   in Loop: Header=BB0_3 Depth=1
+	adrp	x0, .L.str.12
+	add	x0, x0, :lo12:.L.str.12
+	bl	printf
+	add	x0, sp, #68
+	str	x0, [sp, #8]                    // 8-byte Folded Spill
+	mov	x1, #1024                       // =0x400
+	adrp	x2, .L.str.10
+	add	x2, x2, :lo12:.L.str.10
+	adrp	x3, .L.str.13
+	add	x3, x3, :lo12:.L.str.13
+	bl	snprintf
+	ldr	x0, [sp, #8]                    // 8-byte Folded Reload
+	bl	system
+	ldr	x9, [sp, #56]                   // 8-byte Folded Reload
+	mov	w8, #2                          // =0x2
+	str	w8, [x9]
+	b	.LBB0_43
+.LBB0_43:                               //   in Loop: Header=BB0_3 Depth=1
+	b	.LBB0_44
+.LBB0_44:                               //   in Loop: Header=BB0_3 Depth=1
+	b	.LBB0_45
+.LBB0_45:                               //   in Loop: Header=BB0_3 Depth=1
+	mov	w0, #2                          // =0x2
+	bl	sleep
+	b	.LBB0_3
+.Lfunc_end0:
+	.size	main, .Lfunc_end0-main
+	.cfi_endproc
+                                        // -- End function
+	.type	.L.str,@object                  // @.str
+	.section	.rodata.str1.1,"aMS",@progbits,1
+.L.str:
+	.asciz	"/storage/emulated/0/HAMADA/game.txt"
+	.size	.L.str, 36
 
-    .section .bss
-    .lcomm filter_buf, 256         // Holds the filter expression.
-    .lcomm line_buffer, 256          // Temporary buffer for reading lines.
-    .lcomm curr_screen, 256          // Current screen status string.
-    .lcomm prev_screen, 256          // Previous screen status string.
-    .lcomm window_buf, 256           // Output of package detection command.
-    .lcomm cmd_buf, 512              // Command buffer for building dynamic commands.
-    .lcomm last_executed, 16         // Holds either "game", "normal", or empty.
+	.type	.L.str.1,@object                // @.str.1
+.L.str.1:
+	.asciz	"r"
+	.size	.L.str.1, 2
 
-    .section .text
-    .global main
-main:
-    // Function prologue
-    stp     x29, x30, [sp, #-16]!
-    mov     x29, sp
+	.type	.L.str.2,@object                // @.str.2
+.L.str.2:
+	.asciz	"Error: %s not found\n"
+	.size	.L.str.2, 21
 
-    // Check if GAME_LIST exists: fopen(GAME_LIST, "r")
-    adrp    x0, GAME_LIST
-    add     x0, x0, :lo12:GAME_LIST
-    adrp    x1, MODE_R
-    add     x1, x1, :lo12:MODE_R
-    bl      fopen
-    cbz     x0, file_not_found   // if fopen returned NULL, file not found
-    // Close file after checking existence
-    mov     x1, x0
-    bl      fclose
+	.type	.L.str.3,@object                // @.str.3
+.L.str.3:
+	.asciz	"\n"
+	.size	.L.str.3, 2
 
-    // Initialize prev_screen and last_executed to empty strings (first byte = 0)
-    adrp    x0, prev_screen
-    add     x0, x0, :lo12:prev_screen
-    mov     w1, #0
-    strb    w1, [x0]
-    adrp    x0, last_executed
-    add     x0, x0, :lo12:last_executed
-    strb    w1, [x0]
+	.type	.L.str.4,@object                // @.str.4
+.L.str.4:
+	.asciz	"dumpsys window"
+	.size	.L.str.4, 15
 
-loop_start:
-    // === Build the filter expression (app_list_filter) ===
-    // Initialize filter_buf with "grep -o"
-    adrp    x0, filter_buf
-    add     x0, x0, :lo12:filter_buf
-    adrp    x1, GREP_O
-    add     x1, x1, :lo12:GREP_O
-    bl      strcpy
+	.type	.L.str.5,@object                // @.str.5
+.L.str.5:
+	.asciz	"mScreenOn"
+	.size	.L.str.5, 10
 
-    // Open GAME_LIST file for reading
-    adrp    x0, GAME_LIST
-    add     x0, x0, :lo12:GAME_LIST
-    adrp    x1, MODE_R
-    add     x1, x1, :lo12:MODE_R
-    bl      fopen
-    cbz     x0, file_open_error   // if cannot open, exit
-    mov     x19, x0             // save FILE* in x19
+	.type	.L.str.6,@object                // @.str.6
+.L.str.6:
+	.asciz	"false"
+	.size	.L.str.6, 6
 
-build_filter_loop:
-    // Read a line into line_buffer: fgets(line_buffer, 256, file)
-    adrp    x0, line_buffer
-    add     x0, x0, :lo12:line_buffer
-    mov     x1, #256
-    mov     x2, x19
-    bl      fgets
-    cbz     x0, end_build_filter  // if fgets returns NULL, end loop
+	.type	.L.str.7,@object                // @.str.7
+.L.str.7:
+	.asciz	"Screen status changed\n"
+	.size	.L.str.7, 23
 
-    // Check if line is nonempty: if first char == 0 then skip
-    adrp    x3, line_buffer
-    add     x3, x3, :lo12:line_buffer
-    ldrb    w4, [x3]
-    cmp     w4, #0
-    beq     build_filter_loop   // skip if empty
+	.type	.L.str.8,@object                // @.str.8
+.L.str.8:
+	.asciz	"dumpsys window | grep package"
+	.size	.L.str.8, 30
 
-    // Scan the line to see if it contains a space (0x20)
-    mov     x5, x3              // pointer to start of line_buffer
-check_space_loop:
-    ldrb    w6, [x5], #1
-    cbz     w6, no_space_found  // reached end-of-string, no space found
-    cmp     w6, #' '           // compare with ASCII space
-    beq     space_found
-    b       check_space_loop
-space_found:
-    // If a space was found, skip this line
-    b       build_filter_loop
-no_space_found:
-    // Append " -e " to filter_buf
-    adrp    x0, filter_buf
-    add     x0, x0, :lo12:filter_buf
-    adrp    x1, SPACE_E
-    add     x1, x1, :lo12:SPACE_E
-    bl      strcat
+	.type	.L.str.9,@object                // @.str.9
+.L.str.9:
+	.asciz	"Game package detected: %s\n"
+	.size	.L.str.9, 27
 
-    // Remove any newline character from line_buffer.
-    adrp    x7, line_buffer
-    add     x7, x7, :lo12:line_buffer
-remove_newline_loop:
-    ldrb    w8, [x7]
-    cbz     w8, newline_removed
-    cmp     w8, #'\n'
-    beq     newline_found
-    add     x7, x7, #1
-    b       remove_newline_loop
-newline_found:
-    mov     w8, #0
-    strb    w8, [x7]
-newline_removed:
-    // Append the package (line_buffer) to filter_buf
-    adrp    x0, filter_buf
-    add     x0, x0, :lo12:filter_buf
-    adrp    x1, line_buffer
-    add     x1, x1, :lo12:line_buffer
-    bl      strcat
-    b       build_filter_loop
+	.type	.L.str.10,@object               // @.str.10
+.L.str.10:
+	.asciz	"sh %s"
+	.size	.L.str.10, 6
 
-end_build_filter:
-    // Close the game list file
-    mov     x0, x19
-    bl      fclose
+	.type	.L.str.11,@object               // @.str.11
+.L.str.11:
+	.asciz	"/data/adb/modules/HamadaAI/Scripts/game.sh"
+	.size	.L.str.11, 43
 
-    // === Check screen status ===
-    // Execute: "dumpsys window | grep mScreenOn | grep false"
-    adrp    x0, SCREEN_CMD
-    add     x0, x0, :lo12:SCREEN_CMD
-    adrp    x1, MODE_R
-    add     x1, x1, :lo12:MODE_R
-    bl      popen
-    mov     x20, x0            // pipe pointer for screen command
-    adrp    x0, curr_screen
-    add     x0, x0, :lo12:curr_screen
-    mov     x1, #256
-    mov     x2, x20
-    bl      fgets             // read output into curr_screen
-    // Close the pipe
-    mov     x0, x20
-    bl      pclose
+	.type	.L.str.12,@object               // @.str.12
+.L.str.12:
+	.asciz	"Non-game package detected\n"
+	.size	.L.str.12, 27
 
-    // Compare curr_screen with prev_screen using strcmp
-    adrp    x0, curr_screen
-    add     x0, x0, :lo12:curr_screen
-    adrp    x1, prev_screen
-    add     x1, x1, :lo12:prev_screen
-    bl      strcmp
-    cmp     w0, #0
-    beq     skip_screen_change
-    // If different, update prev_screen and print change message
-    adrp    x0, prev_screen
-    add     x0, x0, :lo12:prev_screen
-    adrp    x1, curr_screen
-    add     x1, x1, :lo12:curr_screen
-    bl      strcpy
-    adrp    x0, SCREEN_CHANGED_MSG
-    add     x0, x0, :lo12:SCREEN_CHANGED_MSG
-    bl      puts
+	.type	.L.str.13,@object               // @.str.13
+.L.str.13:
+	.asciz	"/data/adb/modules/HamadaAI/Scripts/normal.sh"
+	.size	.L.str.13, 45
 
-skip_screen_change:
-    // Only proceed with app detection if screen is ON.
-    // (Here we assume that a nonempty curr_screen means the screen is off.)
-    adrp    x0, curr_screen
-    add     x0, x0, :lo12:curr_screen
-    ldrb    w1, [x0]
-    cbnz    w1, skip_app_detection
-
-    // === Detect current foreground app ===
-    // Build command: cmd_buf = PKG_CMD_PREFIX + filter_buf + PKG_CMD_SUFFIX
-    adrp    x0, cmd_buf
-    add     x0, x0, :lo12:cmd_buf
-    adrp    x1, PKG_CMD_PREFIX
-    add     x1, x1, :lo12:PKG_CMD_PREFIX
-    bl      strcpy
-    adrp    x0, cmd_buf
-    add     x0, x0, :lo12:cmd_buf
-    adrp    x1, filter_buf
-    add     x1, x1, :lo12:filter_buf
-    bl      strcat
-    adrp    x0, cmd_buf
-    add     x0, x0, :lo12:cmd_buf
-    adrp    x1, PKG_CMD_SUFFIX
-    add     x1, x1, :lo12:PKG_CMD_SUFFIX
-    bl      strcat
-
-    // Clear window_buf before executing popen
-    adrp    x0, window_buf
-    add     x0, x0, :lo12:window_buf
-    mov     w1, #0
-    strb    w1, [x0]
-
-    // Execute the package-detection command via popen
-    adrp    x0, cmd_buf
-    add     x0, x0, :lo12:cmd_buf
-    adrp    x1, MODE_R
-    add     x1, x1, :lo12:MODE_R
-    bl      popen
-    mov     x21, x0            // save pipe pointer in x21
-    adrp    x0, window_buf
-    add     x0, x0, :lo12:window_buf
-    mov     x1, #256
-    mov     x2, x21
-    bl      fgets             // read output into window_buf
-    mov     x0, x21
-    bl      pclose
-
-    // Check if window_buf is empty or just a newline; if so, go to non-game branch.
-    adrp    x0, window_buf
-    add     x0, x0, :lo12:window_buf
-    ldrb    w1, [x0]
-    cmp     w1, #'\n'
-    beq     non_game_detected
-    cbz     w1, non_game_detected
-
-    // ---- GAME PACKAGE DETECTED ----
-    // Compare last_executed with "game"
-    adrp    x0, last_executed
-    add     x0, x0, :lo12:last_executed
-    adrp    x1, game_str
-    add     x1, x1, :lo12:game_str
-    bl      strcmp
-    cbz     w0, skip_app_detection   // already executed game script?
-    // Print "Game package detected: " and then the package info
-    adrp    x0, GAME_DETECTED_MSG
-    add     x0, x0, :lo12:GAME_DETECTED_MSG
-    bl      puts
-    adrp    x0, window_buf
-    add     x0, x0, :lo12:window_buf
-    bl      puts
-    // Build command: "sh " + GAME_SCRIPT
-    adrp    x0, cmd_buf
-    add     x0, x0, :lo12:cmd_buf
-    adrp    x1, SH_CMD_PREFIX
-    add     x1, x1, :lo12:SH_CMD_PREFIX
-    bl      strcpy
-    adrp    x0, cmd_buf
-    add     x0, x0, :lo12:cmd_buf
-    adrp    x1, GAME_SCRIPT
-    add     x1, x1, :lo12:GAME_SCRIPT
-    bl      strcat
-    // Execute the game script via system()
-    adrp    x0, cmd_buf
-    add     x0, x0, :lo12:cmd_buf
-    bl      system
-    // Update last_executed = "game"
-    adrp    x0, last_executed
-    add     x0, x0, :lo12:last_executed
-    adrp    x1, game_str
-    add     x1, x1, :lo12:game_str
-    bl      strcpy
-    b       end_app_detection
-
-non_game_detected:
-    // ---- NON-GAME PACKAGE DETECTED ----
-    // Compare last_executed with "normal"
-    adrp    x0, last_executed
-    add     x0, x0, :lo12:last_executed
-    adrp    x1, normal_str
-    add     x1, x1, :lo12:normal_str
-    bl      strcmp
-    cbz     w0, end_app_detection   // already executed normal script?
-    // Print "Non-game package detected"
-    adrp    x0, NON_GAME_MSG
-    add     x0, x0, :lo12:NON_GAME_MSG
-    bl      puts
-    // Build command: "sh " + NORMAL_SCRIPT
-    adrp    x0, cmd_buf
-    add     x0, x0, :lo12:cmd_buf
-    adrp    x1, SH_CMD_PREFIX
-    add     x1, x1, :lo12:SH_CMD_PREFIX
-    bl      strcpy
-    adrp    x0, cmd_buf
-    add     x0, x0, :lo12:cmd_buf
-    adrp    x1, NORMAL_SCRIPT
-    add     x1, x1, :lo12:NORMAL_SCRIPT
-    bl      strcat
-    // Execute the normal script via system()
-    adrp    x0, cmd_buf
-    add     x0, x0, :lo12:cmd_buf
-    bl      system
-    // Update last_executed = "normal"
-    adrp    x0, last_executed
-    add     x0, x0, :lo12:last_executed
-    adrp    x1, normal_str
-    add     x1, x1, :lo12:normal_str
-    bl      strcpy
-
-end_app_detection:
-skip_app_detection:
-    // Sleep for 2 seconds (sleep(2))
-    mov     x0, #2
-    bl      sleep
-
-    // Clear filter_buf (set first byte = 0) for next iteration
-    adrp    x0, filter_buf
-    add     x0, x0, :lo12:filter_buf
-    mov     w1, #0
-    strb    w1, [x0]
-
-    b       loop_start
-
-file_not_found:
-    // Print error and exit(1)
-    adrp    x0, ERR_MSG
-    add     x0, x0, :lo12:ERR_MSG
-    bl      puts
-    mov     x0, #1
-    bl      exit
-
-file_open_error:
-    adrp    x0, ERR_MSG
-    add     x0, x0, :lo12:ERR_MSG
-    bl      puts
-    mov     x0, #1
-    bl      exit
-
-    // Function epilogue (never reached)
-    mov     x0, #0
-    bl      exit
+	.ident	"clang version 19.1.7"
+	.section	".note.GNU-stack","",@progbits
